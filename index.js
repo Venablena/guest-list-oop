@@ -39,7 +39,10 @@ class Party {
   }
 
   enter (guest) {
+    if(guestList.guests.includes(guest) && this.venue.capacity > 0) {
     this.currentGuests.push(guest)
+    this.venue.capacity --
+  }else{ console.error(`Sorry, you're not allowed in, ${guest.name} ! :-(`)}
   }
 
   leave (guest) {
@@ -47,6 +50,7 @@ class Party {
     this.currentGuests.splice(index, 1)
 
     this.pastGuests.push(guest)
+    this.venue.capacity ++
   }
 
   get population () {
@@ -60,7 +64,7 @@ const matt = new Guest('Matt', true)
 const sean = new Guest('Sean', true)
 const wes = new Guest('Wes', true)
 
-const venue = new Venue(25)
+const venue = new Venue(2)
 const guestList = new GuestList()
 
 guestList.addGuests(kevin, nathan, matt, sean)
@@ -68,6 +72,8 @@ guestList.addGuests(kevin, nathan, matt, sean)
 const party = new Party(venue, guestList)
 party.enter(matt)
 party.enter(sean)
+party.enter(nathan)
 party.leave(sean)
-
-console.log(party)
+party.enter(wes)
+party.enter(nathan)
+console.log(party);
